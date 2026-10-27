@@ -1,0 +1,148 @@
+<!DOCTYPE html> <!-- diz ao navegador que é HTML5 -->
+<html lang="pt-BR"> <!-- idioma da página -->
+<head>
+  <meta charset="UTF-8"> <!-- acentos funcionam -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> <!-- página se adapta ao celular -->
+  <title>Escola do Grave</title> <!-- nome na aba do navegador -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- conexão antecipada com o Google Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> <!-- idem para os arquivos de fonte -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Work+Sans:wght@400;500;600&display=swap"> <!-- fontes -->
+  <link rel="stylesheet" href="css/style.css"> <!-- nosso CSS -->
+</head>
+<body>
+<div class="app">
+  <header class="topo">
+    <div class="marca">
+      <h1>Escola do <em>Grave</em></h1>
+      <p>Braço do baixo interativo: toque nas casas para ouvir, monte escalas pela fórmula, caminhe pelas posições e pratique com metrônomo.</p>
+    </div>
+    <nav class="abas" role="tablist" aria-label="Seções">
+      <button class="aba" role="tab" data-vista="escalas">Braço e escalas</button>
+      <button class="aba" role="tab" data-vista="exercicios">Exercícios</button>
+      <button class="aba" role="tab" data-vista="tecnicas">Técnicas</button>
+      <button class="aba" role="tab" data-vista="quiz">Quiz do braço</button>
+    </nav>
+  </header>
+
+  <section class="painel" aria-label="Ajustes gerais">
+    <div class="grupo"><span class="rotulo">Tom (tônica)</span><div class="tons" id="tons"></div></div>
+    <div class="grupo"><span class="rotulo">Baixo</span><div class="seg" id="seg-cordas"><button data-v="4">4 cordas</button><button data-v="5">5 cordas</button></div></div>
+    <div class="grupo"><span class="rotulo">Nome nas bolinhas</span><div class="seg" id="seg-rotulo"><button data-v="nota">Cifra (C D E)</button><button data-v="solfejo">Dó Ré Mi</button><button data-v="intervalo">Intervalo</button></div></div>
+  </section>
+
+  <!-- ================= BRAÇO E ESCALAS ================= -->
+  <section class="vista" id="v-escalas" hidden>
+    <div class="cartao">
+      <div class="barra">
+        <div class="grupo"><label class="rotulo" for="sel-escala">Escala ou arpejo</label><select id="sel-escala"></select></div>
+        <div class="grupo"><span class="rotulo">Posição no braço</span>
+          <div class="barra" style="gap:6px">
+            <button class="botao" id="pos-ant" aria-label="Posição anterior">◀</button>
+            <span class="valor" id="pos-nome" style="min-width:150px;text-align:center">Braço todo</span>
+            <button class="botao" id="pos-prox" aria-label="Próxima posição">▶</button>
+            <button class="botao" id="pos-todo">Braço todo</button>
+          </div>
+        </div>
+        <div class="grupo"><label class="rotulo" for="vel-escala">Velocidade</label><div class="barra" style="gap:8px"><input type="range" id="vel-escala" min="40" max="200" step="5"><span class="valor" id="vel-escala-v"></span></div></div>
+        <div class="grupo"><span class="rotulo">Ouvir</span>
+          <div class="barra" style="gap:6px">
+            <button class="botao prim" id="tocar-pos">▶ Tocar posição</button>
+            <button class="botao" id="caminhar">▶ Caminhar pelo braço</button>
+            <button class="botao" id="parar-esc">■ Parar</button>
+          </div>
+        </div>
+      </div>
+      <div class="rolagem"><div class="moldura"><div class="braco" id="braco-escala"></div><div class="numeros" id="num-escala"></div></div></div>
+      <div class="leitura" id="leitura">Toque em qualquer casa para ouvir a nota. Bolinha âmbar = tônica, azul = demais notas da escala.</div>
+    </div>
+
+    <div class="duas">
+      <div class="cartao">
+        <h2>Montagem da escala</h2>
+        <p class="texto" id="esc-uso"></p>
+        <div class="grupo"><span class="rotulo">Fórmula (T = 2 casas, S = 1 casa)</span><div class="formula" id="formula"></div></div>
+        <div class="grupo"><span class="rotulo">Notas e graus (toque para ouvir)</span><div class="graus" id="graus"></div></div>
+        <p class="texto" id="esc-passo"></p>
+      </div>
+      <div class="cartao">
+        <h2>Atalhos do braço</h2>
+        <ul class="lista">
+          <li><b>Afinação em quartas (E A D G).</b> Cada corda está 5 casas acima da anterior, então um desenho de escala tem o mesmo formato em qualquer lugar do braço. Aprendeu em G, já sabe em A: é só deslizar duas casas.</li>
+          <li><b>Mesma nota em outra corda:</b> casa 5 de uma corda = corda solta de baixo seguinte. Ex.: casa 5 da corda E é o A solto.</li>
+          <li><b>Oitava:</b> duas cordas acima e duas casas para a frente. Ex.: G na casa 3 da corda E → G na casa 5 da corda D.</li>
+          <li><b>Casa 12 repete tudo:</b> a partir dela as notas são as mesmas das cordas soltas, uma oitava acima.</li>
+          <li><b>Três desenhos por tônica:</b> da mesma casa da tônica dá para tocar a escala com o dedo 1, 2 ou 4 na tônica. Use “Posição no braço” para ver cada região e o botão “Caminhar” para ouvir a escala ligando todas.</li>
+          <li><b>Notas naturais sem sustenido entre elas:</b> E–F e B–C ficam lado a lado (1 casa). Todas as outras naturais ficam a 2 casas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXERCÍCIOS ================= -->
+  <section class="vista" id="v-exercicios" hidden>
+    <div class="ex-layout">
+      <nav class="ex-lista" id="ex-lista" aria-label="Lista de exercícios"></nav>
+      <div class="cartao">
+        <div class="barra" style="justify-content:space-between;align-items:center">
+          <h2 id="ex-nome"></h2>
+          <span class="chip" id="ex-nivel"></span>
+        </div>
+        <p class="texto" id="ex-obj"></p>
+        <div class="barra">
+          <div class="grupo" id="g-casa"><label class="rotulo" for="sel-casa">Casa inicial</label><select id="sel-casa"></select></div>
+          <div class="grupo" id="g-perm"><label class="rotulo" for="sel-perm">Ordem dos dedos</label><select id="sel-perm"></select></div>
+          <div class="grupo"><label class="rotulo" for="bpm">Andamento</label><div class="barra" style="gap:8px"><input type="range" id="bpm" min="40" max="180" step="2"><span class="valor" id="bpm-v"></span></div></div>
+          <div class="grupo"><span class="rotulo">Notas por tempo</span><div class="seg" id="seg-porbatida"><button data-v="1">1 (semínima)</button><button data-v="2">2 (colcheia)</button></div></div>
+          <div class="grupo"><span class="rotulo">Opções</span><div class="seg" id="seg-opcoes"><button data-v="metro">Metrônomo</button><button data-v="loop">Repetir</button></div></div>
+          <div class="grupo"><span class="rotulo">Nas bolinhas</span><div class="seg" id="seg-pontos"><button data-v="dedo">Dedo</button><button data-v="nota">Nota</button></div></div>
+        </div>
+        <div class="barra" style="align-items:center">
+          <button class="botao prim" id="ex-tocar">▶ Tocar exercício</button>
+          <button class="botao" id="ex-parar">■ Parar</button>
+          <div class="status" id="ex-status"></div>
+        </div>
+        <div class="rolagem"><div class="moldura"><div class="braco" id="braco-ex"></div><div class="numeros" id="num-ex"></div></div></div>
+        <div class="grupo"><span class="rotulo">Tablatura (cada número é a casa; a linha de cima é a corda mais aguda)</span><div class="tab" id="tab"></div></div>
+        <div class="duas">
+          <div class="grupo"><h3>Como fazer</h3><ol class="lista" id="ex-como"></ol></div>
+          <div class="grupo"><h3>Dica de professor</h3><div class="caixa" id="ex-dica"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TÉCNICAS ================= -->
+  <section class="vista" id="v-tecnicas" hidden>
+    <div class="cartao">
+      <h2>Rotina diária de 40 minutos</h2>
+      <p class="texto">Os métodos de ensino de baixo costumam separar o estudo da mão esquerda e da mão direita, começar por cordas soltas e só depois juntar tudo em escalas e linhas de baixo. Esta rotina segue essa ordem.</p>
+      <ol class="plano">
+        <li><span class="min">5 min</span><b>Aquecimento</b><span class="texto">Cordas soltas alternando indicador e médio, depois a aranha cromática.</span></li>
+        <li><span class="min">10 min</span><b>Técnica com metrônomo</b><span class="texto">Permutações de dedos e escala maior numa posição. Suba 4 bpm só quando sair limpo.</span></li>
+        <li><span class="min">10 min</span><b>Mapa do braço</b><span class="texto">Caminhe uma escala por todas as posições e faça 2 rodadas do quiz.</span></li>
+        <li><span class="min">15 min</span><b>Música</b><span class="texto">Groove 1-5-8 na progressão I–V–vi–IV e depois uma música que você gosta.</span></li>
+      </ol>
+    </div>
+    <div class="tec-grade" id="tec-grade"></div>
+  </section>
+
+  <!-- ================= QUIZ ================= -->
+  <section class="vista" id="v-quiz" hidden>
+    <div class="cartao">
+      <div class="barra">
+        <div class="grupo"><span class="rotulo">Modo</span><div class="seg" id="seg-quizmodo"><button data-v="encontrar">Encontre a nota</button><button data-v="nome">Que nota é essa?</button></div></div>
+        <div class="grupo"><span class="rotulo">Região</span><div class="seg" id="seg-quizarea"><button data-v="5">Casas 0–5</button><button data-v="12">Casas 0–12</button><button data-v="20">Braço todo</button></div></div>
+        <button class="botao" id="quiz-pular">Pular pergunta</button>
+      </div>
+      <div class="placar"><div><strong id="q-acertos">0</strong><span>acertos</span></div><div><strong id="q-total">0</strong><span>tentativas</span></div><div><strong id="q-seq">0</strong><span>sequência</span></div><div><strong id="q-pct">–</strong><span>aproveitamento</span></div></div>
+      <p class="pergunta" id="q-pergunta"></p>
+      <div class="respostas" id="q-respostas" hidden></div>
+      <div class="rolagem"><div class="moldura"><div class="braco" id="braco-quiz"></div><div class="numeros" id="num-quiz"></div></div></div>
+      <p class="texto" id="q-feedback">Dica: decore primeiro as notas naturais nas cordas E e A até a casa 12. Elas são a referência para achar todo o resto.</p>
+    </div>
+  </section>
+</div>
+
+<script src="js/script.js"></script> <!-- nosso JavaScript, no fim para o HTML já existir quando ele rodar -->
+</body>
+</html>
