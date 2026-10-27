@@ -294,6 +294,32 @@ const EXERCICIOS = [
     como:['Coloque o indicador na casa inicial e deixe os outros dedos sobre as três casas seguintes.','Toque casa por casa com os dedos 1, 2, 3 e 4, mudando de corda até a G.','Na volta, use 4, 3, 2, 1 descendo as cordas.','Mantenha os dedos perto das cordas e só levante o dedo que vai usar em seguida.'],
     dica:'<b>Comece na casa 5.</b> Lá as casas são menores e a abertura dói menos. Quando ficar confortável, desça uma casa por dia até a casa 1.',
     gerar() { const o = off(), c = estado.casa, r = []; for (let s = 0; s < 4; s++) for (let d = 1; d <= 4; d++) r.push(P(o + s, c + d - 1, d)); for (let s = 3; s >= 0; s--) for (let d = 4; d >= 1; d--) r.push(P(o + s, c + d - 1, d)); return r; } },
+  { id:'aranha-cruzada', nome:'Aranha cruzada 1-2-3-4', nivel:2, foco:'Mão esquerda',              // novo: a "spider walk" clássica
+    obj:'Os dedos andam intercalando duas cordas vizinhas: 1 na de baixo, 2 na de cima, 3 na de baixo, 4 na de cima. Treina independência e troca de corda.', // objetivo
+    params:['casa'],                                                                                   // usa o seletor "Casa inicial"
+    como:['Dedo 1 na corda E, dedo 2 na corda A uma casa à frente.','Dedo 3 volta para a corda E, dedo 4 vai para a corda A.','Suba para o par A–D e depois D–G com o mesmo desenho.','Na descida, o desenho volta pelos pares G–D, D–A, A–E começando pelo dedo 4.'], // passo a passo
+    dica:'<b>Deixe os dedos apertados.</b> Só solte um dedo quando ele for tocar a próxima nota. É isso que dá o nome de aranha: as patas andam em pares, sem sair todas do chão.', // dica
+    gerar() {                                                                                         // monta as notas
+      const o = off(), c = estado.casa, r = [];                                                       // corda E, casa inicial e lista
+      for (let s = 0; s < 3; s++)                                                                     // pares E–A, A–D, D–G
+        [[0,1],[1,2],[0,3],[1,4]].forEach(([cima, d]) => r.push(P(o + s + cima, c + d - 1, d)));      // [0 = corda de baixo / 1 = de cima, dedo]
+      for (let s = 2; s >= 0; s--)                                                                    // volta: pares D–G, A–D, E–A
+        [[1,4],[0,3],[1,2],[0,1]].forEach(([cima, d]) => r.push(P(o + s + cima, c + d - 1, d)));      // mesma ideia, do dedo 4 para o 1
+      return r;                                                                                       // devolve o exercício
+    } },
+  { id:'aranha-pares', nome:'Aranha em pares 1-3 / 2-4', nivel:3, foco:'Independência dos dedos',     // novo: variação mais difícil
+    obj:'Primeiro os dedos 1 e 3 (um em cada corda), depois 2 e 4. Separa o dedo médio do anelar, que é a dupla mais "grudada" da mão.', // objetivo
+    params:['casa'],                                                                                   // usa o seletor "Casa inicial"
+    como:['Dedo 1 na corda de baixo e dedo 3 na de cima, duas casas à frente.','Depois dedo 2 na de baixo e dedo 4 na de cima.','Suba pelos pares de cordas até a G.','Desça fazendo o caminho inverso: 4, 2, 3, 1.'], // passo a passo
+    dica:'<b>Comece bem devagar, perto de 50 bpm.</b> Se o dedo 3 levantar junto quando o 2 desce, pare e repita só essa troca até ela ficar solta.', // dica
+    gerar() {                                                                                         // monta as notas
+      const o = off(), c = estado.casa, r = [];                                                       // corda E, casa inicial e lista
+      for (let s = 0; s < 3; s++)                                                                     // pares E–A, A–D, D–G
+        [[0,1],[1,3],[0,2],[1,4]].forEach(([cima, d]) => r.push(P(o + s + cima, c + d - 1, d)));      // 1 embaixo, 3 em cima, 2 embaixo, 4 em cima
+      for (let s = 2; s >= 0; s--)                                                                    // volta
+        [[1,4],[0,2],[1,3],[0,1]].forEach(([cima, d]) => r.push(P(o + s + cima, c + d - 1, d)));      // 4 em cima, 2 embaixo, 3 em cima, 1 embaixo
+      return r;                                                                                       // devolve o exercício
+    } },
   { id:'permutacao', nome:'Permutações de dedos', nivel:2, foco:'Independência dos dedos',
     obj:'Treinar todas as combinações de dedos da mão esquerda. Cada ordem diferente fortalece uma ligação diferente entre os dedos.',
     params:['casa','perm'],
